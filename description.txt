@@ -1,0 +1,1 @@
+﻿Provides more information when hovering over an item.
