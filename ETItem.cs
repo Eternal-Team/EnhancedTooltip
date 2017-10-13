@@ -1,5 +1,4 @@
-﻿using BaseLib.Utility;
-using EnhancedTooltip.Tooltip;
+﻿using EnhancedTooltip.Tooltip;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
+using static BaseLib.Utility.Utility;
 
 namespace EnhancedTooltip
 {
@@ -81,23 +81,23 @@ namespace EnhancedTooltip
 				case "Damage":
 					return DamageTooltip.GetLine(line, item);
 				case "CritChance":
-					return new TwoColumnLine("Critical strike chance:", $"{item.crit}%", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.crit / 100f), line.baseScale);
+					return new TwoColumnLine("Critical strike chance:", $"{item.crit}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.crit / 100f), line.baseScale);
 				case "Speed":
 					return SpeedTooltip.GetLine(line, item);
 				case "Knockback":
 					return KnockbackTooltip.GetLine(line, item);
 				case "FishingPower":
-					return new TwoColumnLine("Fishing power:", $"{item.fishingPole}%", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.fishingPole / (float)EnhancedTooltip.Instance.maxPowerRod), line.baseScale);
+					return new TwoColumnLine("Fishing power:", $"{item.fishingPole}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.fishingPole / (float)EnhancedTooltip.Instance.maxPowerRod), line.baseScale);
 				case "BaitPower":
-					return new TwoColumnLine("Bait power:", $"{item.bait}%", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.bait / (float)EnhancedTooltip.Instance.maxPowerBait), line.baseScale);
+					return new TwoColumnLine("Bait power:", $"{item.bait}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.bait / (float)EnhancedTooltip.Instance.maxPowerBait), line.baseScale);
 				case "Defense":
-					return new TwoColumnLine("Defense:", $"{item.defense}", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.defense / (float)EnhancedTooltip.Instance.maxDefense), line.baseScale);
+					return new TwoColumnLine("Defense:", $"{item.defense}", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.defense / (float)EnhancedTooltip.Instance.maxDefense), line.baseScale);
 				case "PickPower":
-					return new TwoColumnLine("Pickaxe power:", $"{item.pick}%", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.pick / (float)EnhancedTooltip.Instance.maxPowerPick), line.baseScale);
+					return new TwoColumnLine("Pickaxe power:", $"{item.pick}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.pick / (float)EnhancedTooltip.Instance.maxPowerPick), line.baseScale);
 				case "AxePower":
-					return new TwoColumnLine("Axe power:", $"{item.axe}%", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.axe / (float)EnhancedTooltip.Instance.maxPowerAxe), line.baseScale);
+					return new TwoColumnLine("Axe power:", $"{item.axe}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.axe / (float)EnhancedTooltip.Instance.maxPowerAxe), line.baseScale);
 				case "HammerPower":
-					return new TwoColumnLine("Hammer power:", $"{item.hammer}%", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.hammer / (float)EnhancedTooltip.Instance.maxPowerHammer), line.baseScale);
+					return new TwoColumnLine("Hammer power:", $"{item.hammer}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.hammer / (float)EnhancedTooltip.Instance.maxPowerHammer), line.baseScale);
 				case "TileBoost":
 					return new TwoColumnLine("Range:", $"{(item.tileBoost > 0 ? "+" : "")}{item.tileBoost}", line.color, item.tileBoost > 0 ? Color.Lime : Color.Red, line.baseScale);
 				case "HealLife":
@@ -130,14 +130,14 @@ namespace EnhancedTooltip
 
 			if (twoColumnLines.Any())
 			{
-				float width = twoColumnLines.Select(z => Main.fontMouseText.MeasureString(BaseLib.Utility.Utility.ExtractText(z.textLeft)).X * z.scaleL.X + Main.fontMouseText.MeasureString(BaseLib.Utility.Utility.ExtractText(z.textRight)).X * z.scaleR.X).OrderByDescending(z => z).First();
+				float width = twoColumnLines.Select(z => Main.fontMouseText.MeasureString(ExtractText(z.textLeft)).X * z.scaleL.X + Main.fontMouseText.MeasureString(ExtractText(z.textRight)).X * z.scaleR.X).OrderByDescending(z => z).First();
 				float height = twoColumnLines.Sum(z => MathHelper.Max(Main.fontMouseText.MeasureString(z.textLeft).Y, Main.fontMouseText.MeasureString(z.textRight).Y));
 
 				box.Width = (int)width + 30;
 				box.Height = (int)height + 20;
 
-				Main.spriteBatch.DrawPanel(box, BaseLib.Utility.Utility.backgroundTexture, new Color(63, 82, 151) * 0.9f);
-				Main.spriteBatch.DrawPanel(box, BaseLib.Utility.Utility.borderTexture, Color.Black);
+				Main.spriteBatch.DrawPanel(box, backgroundTexture, new Color(63, 82, 151) * 0.9f);
+				Main.spriteBatch.DrawPanel(box, borderTexture, Color.Black);
 			}
 
 			twoColumnLines.Clear();

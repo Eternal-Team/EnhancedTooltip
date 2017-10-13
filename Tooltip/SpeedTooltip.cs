@@ -17,7 +17,7 @@ namespace EnhancedTooltip.Tooltip
 			else if (item.useTime <= 45) speedText = "Very slow";
 			else if (item.useTime <= 55) speedText = "Extremely slow";
 			else speedText = "Snail";
-			return new TwoColumnLine("Speed:", $"{speedText} ({item.useTime})", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, 55f / (float)item.useTime), line.baseScale);
+			return new TwoColumnLine("Speed:", $"{speedText} ({item.useTime})", line.color, BaseLib.Utility.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, 55f / (float)item.useTime), line.baseScale);
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace EnhancedTooltip.Tooltip
 			if (item.summon) knockback += Main.LocalPlayer.minionKB;
 
 			string knockbackText;
-			if (knockback == 0f) knockbackText = "No";
+			if (knockback == 0) knockbackText = "No";
 			else if (knockback <= 1.5f) knockbackText = "Extremely weak";
 			else if (knockback <= 3f) knockbackText = "Very weak";
 			else if (knockback <= 4f) knockbackText = "Weak";
@@ -23,7 +23,7 @@ namespace EnhancedTooltip.Tooltip
 			else if (knockback <= 11f) knockbackText = "Extremely strong";
 			else knockbackText = "Insane";
 
-			return new TwoColumnLine("Knockback:", $"{knockbackText} ({knockback:0.0})", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, knockback / 11f), line.baseScale);
+			return new TwoColumnLine("Knockback:", $"{knockbackText} ({knockback:0.0})", line.color, BaseLib.Utility.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, knockback / 11f), line.baseScale);
 		}
 	}
 }

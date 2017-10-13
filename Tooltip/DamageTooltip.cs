@@ -35,7 +35,7 @@ namespace EnhancedTooltip.Tooltip
 				textDamage = textDamage.Insert(0, "Throwing ");
 				itemDamage *= Main.LocalPlayer.thrownDamage;
 			}
-			return new TwoColumnLine(textDamage, ((int)itemDamage).ToString(), line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, (float)item.damage / (float)EnhancedTooltip.Instance.maxDamage), line.baseScale);
+			return new TwoColumnLine(textDamage, ((int)itemDamage).ToString(), line.color, BaseLib.Utility.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.damage / (float)EnhancedTooltip.Instance.maxDamage), line.baseScale);
 		}
 	}
 }
