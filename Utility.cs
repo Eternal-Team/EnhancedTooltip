@@ -5,7 +5,6 @@ namespace EnhancedTooltip
 {
 	public static class Utility
 	{
-
 		public static string CText(params object[] args)
 		{
 			StringBuilder sb = new StringBuilder();

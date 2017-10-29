@@ -38,9 +38,9 @@ namespace EnhancedTooltip
 
 		public override void Unload()
 		{
-			Instance = null;
-
 			rarityBack = null;
+
+			Instance = null;
 		}
 
 		public override void PostUpdateInput()

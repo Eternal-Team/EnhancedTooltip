@@ -40,12 +40,11 @@ namespace EnhancedTooltip.Tooltip
 		{
 			position.X = (int)position.X;
 			position.Y = (int)position.Y;
-			Vector2 sizeR, sizeL;
 
 			if (string.IsNullOrEmpty(measureableTextLeft)) measureableTextLeft = textLeft;
 
-			sizeL = Main.fontMouseText.MeasureString(measureableTextLeft) * scaleL;
-			sizeR = Main.fontMouseText.MeasureString(textRight) * scaleR;
+			Vector2 sizeL = Main.fontMouseText.MeasureString(measureableTextLeft) * scaleL;
+			Vector2 sizeR = Main.fontMouseText.MeasureString(textRight) * scaleR;
 
 			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, textLeft, position, colorLeft, 0f, Vector2.Zero, scaleL);
 			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, textRight, position + new Vector2(box.Width - 24 - sizeR.X, 0), colorRight, 0f, Vector2.Zero, scaleR);
