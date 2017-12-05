@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,9 +67,9 @@
     <Content Include="description.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseLib\BaseLib.csproj">
-      <Project>{6812D262-8588-4999-A01D-A6DDC71ED4C0}</Project>
-      <Name>BaseLib</Name>
+    <ProjectReference Include="..\TheOneLibrary\TheOneLibrary.csproj">
+      <Project>{FE14625B-5827-4C2C-B11B-DE3F22AE17B2}</Project>
+      <Name>TheOneLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

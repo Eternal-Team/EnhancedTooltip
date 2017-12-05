@@ -6,7 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using static BaseLib.Utility.Utility;
+using static TheOneLibrary.Utility.Utility;
 
 namespace EnhancedTooltip
 {
@@ -136,8 +136,8 @@ namespace EnhancedTooltip
 				box.Width = (int)width + 30;
 				box.Height = (int)height + 20;
 
-				Main.spriteBatch.DrawPanel(box, backgroundTexture, new Color(63, 82, 151) * 0.9f);
-				Main.spriteBatch.DrawPanel(box, borderTexture, Color.Black);
+				Main.spriteBatch.DrawPanel(box, TheOneLibrary.TheOneLibrary.backgroundTexture, new Color(63, 82, 151) * 0.9f);
+				Main.spriteBatch.DrawPanel(box, TheOneLibrary.TheOneLibrary.borderTexture, Color.Black);
 			}
 
 			twoColumnLines.Clear();
