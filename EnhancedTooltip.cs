@@ -1,22 +1,22 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ModLoader;
+using TheOneLibrary.Base;
+using TheOneLibrary.Utility;
 
 namespace EnhancedTooltip
 {
 	public class EnhancedTooltip : Mod
 	{
-		public static EnhancedTooltip Instance;
+		[Null] public static EnhancedTooltip Instance;
+
+		[Null] public static ModHotKey MoreInfo;
+		[Null] public static ModHotKey PrefixInfo;
 
 		public int maxPowerPick, maxPowerAxe, maxPowerHammer, maxPowerRod, maxPowerBait, maxManaCost, maxDamage, maxDefense;
-
-		public static bool shiftInUse;
-		public static bool controlInUse;
-
-		public static Texture2D rarityBack;
 
 		public EnhancedTooltip()
 		{
@@ -33,20 +33,15 @@ namespace EnhancedTooltip
 		{
 			Instance = this;
 
-			rarityBack = ModLoader.GetTexture("EnhancedTooltip/RarityBack");
+			MoreInfo = this.Register("Show more info", Keys.RightShift);
+			PrefixInfo = this.Register("Show prefix info", Keys.RightControl);
 		}
 
 		public override void Unload()
 		{
-			rarityBack = null;
+			this.UnloadNullableTypes();
 
-			Instance = null;
-		}
-
-		public override void PostUpdateInput()
-		{
-			shiftInUse = Main.keyState.GetPressedKeys().Contains(Keys.RightShift);
-			controlInUse = Main.keyState.GetPressedKeys().Contains(Keys.RightControl);
+			GC.Collect();
 		}
 
 		public override void PostSetupContent()

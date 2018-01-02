@@ -31,7 +31,7 @@ namespace EnhancedTooltip
 
 			bool hasAdditionalInfo = item.favorited || item.createTile > 0 || item.createWall > 0 || item.ammo > 0 || item.consumable || item.material || item.social || item.accessory || item.questItem || item.vanity || item.expert;
 
-			if (!EnhancedTooltip.shiftInUse)
+			if (!ETPlayer.MoreInfo)
 			{
 				tooltips.RemoveAll(x => x.mod == "Terraria" && x.Name.StartsWith("Favorite"));
 				tooltips.RemoveAll(x => x.mod == "Terraria" && x.Name.StartsWith("Social"));
@@ -44,13 +44,13 @@ namespace EnhancedTooltip
 				tooltips.RemoveAll(x => x.mod == "Terraria" && x.Name == "Quest");
 				tooltips.RemoveAll(x => x.mod == "Terraria" && x.Name == "Ammo");
 
-				if (hasAdditionalInfo) tooltips.Add(new TooltipLine(mod, "ShiftInfo", "Press [c/f2ff82:RSHIFT] to display additional info"));
+				if (hasAdditionalInfo) tooltips.Add(new TooltipLine(mod, "MoreInfo", $"Press [c/f2ff82:{GetHotkeyValue(mod.Name + ": Show more info")}] to display additional info"));
 			}
 
-			if (!EnhancedTooltip.controlInUse)
+			if (!ETPlayer.PrefixInfo)
 			{
 				tooltips.RemoveAll(x => x.mod == "Terraria" && x.Name.StartsWith("Prefix"));
-				if (item.prefix > 0) tooltips.Add(new TooltipLine(mod, "ControlInfo", "Press [c/83fcec:RCONTROL] to display prefix info"));
+				if (item.prefix > 0) tooltips.Add(new TooltipLine(mod, "PrefixInfo", $"Press [c/83fcec:{GetHotkeyValue(mod.Name + ": Show prefix info")}] to display prefix info"));
 			}
 		}
 
@@ -81,7 +81,12 @@ namespace EnhancedTooltip
 				case "Damage":
 					return DamageTooltip.GetLine(line, item);
 				case "CritChance":
-					return new TwoColumnLine("Critical strike chance:", $"{item.crit}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.crit / 100f), line.baseScale);
+					int itemCrit = item.crit;
+					Player player = Main.LocalPlayer;
+					if (item.melee) itemCrit = player.meleeCrit - player.HeldItem.crit + itemCrit;
+					else if (item.ranged) itemCrit = player.rangedCrit - player.HeldItem.crit + itemCrit;
+					else if (item.magic) itemCrit = player.magicCrit - player.HeldItem.crit + itemCrit;
+					return new TwoColumnLine("Critical strike chance:", $"{itemCrit}%", line.color, DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.crit / 100f), line.baseScale);
 				case "Speed":
 					return SpeedTooltip.GetLine(line, item);
 				case "Knockback":
@@ -111,13 +116,13 @@ namespace EnhancedTooltip
 					return BuffTimeTooltip.GetLine(line, item);
 				case "Price":
 					return PriceTooltip.GetLine(line, item);
-				case "ShiftInfo":
+				case "MoreInfo":
 					TwoColumnLine shiftLine = new TwoColumnLine(line.text, line.color, line.baseScale);
-					shiftLine.measureableTextLeft = ChatManager.Regexes.Format.Replace(line.text, "RSHIFT");
+					shiftLine.measureableTextLeft = ChatManager.Regexes.Format.Replace(line.text, GetHotkeyValue(mod.Name + ": Show more info"));
 					return shiftLine;
-				case "ControlInfo":
+				case "PrefixInfo":
 					TwoColumnLine controlLine = new TwoColumnLine(line.text, line.color, line.baseScale);
-					controlLine.measureableTextLeft = ChatManager.Regexes.Format.Replace(line.text, "RCONTROL");
+					controlLine.measureableTextLeft = ChatManager.Regexes.Format.Replace(line.text, GetHotkeyValue(mod.Name + ": Show prefix info"));
 					return controlLine;
 				default: return new TwoColumnLine(line.text, line.color, line.baseScale);
 			}

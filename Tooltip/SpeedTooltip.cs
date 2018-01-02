@@ -9,13 +9,13 @@ namespace EnhancedTooltip.Tooltip
 		public static TwoColumnLine GetLine(DrawableTooltipLine line, Item item)
 		{
 			string speedText;
-			if (item.useTime <= 8) speedText = "Insanely fast";
-			else if (item.useTime <= 20) speedText = "Very fast";
-			else if (item.useTime <= 25) speedText = "Fast";
-			else if (item.useTime <= 30) speedText = "Average";
-			else if (item.useTime <= 35) speedText = "Slow";
-			else if (item.useTime <= 45) speedText = "Very slow";
-			else if (item.useTime <= 55) speedText = "Extremely slow";
+			if (item.useAnimation <= 8) speedText = "Insanely fast";
+			else if (item.useAnimation <= 20) speedText = "Very fast";
+			else if (item.useAnimation <= 25) speedText = "Fast";
+			else if (item.useAnimation <= 30) speedText = "Average";
+			else if (item.useAnimation <= 35) speedText = "Slow";
+			else if (item.useAnimation <= 45) speedText = "Very slow";
+			else if (item.useAnimation <= 55) speedText = "Extremely slow";
 			else speedText = "Snail";
 			return new TwoColumnLine("Speed:", $"{speedText} ({item.useTime})", line.color, TheOneLibrary.Utility.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, 55f / item.useTime), line.baseScale);
 		}

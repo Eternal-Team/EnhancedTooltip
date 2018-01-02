@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System.Text;
+﻿using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace EnhancedTooltip
 {
@@ -13,6 +13,5 @@ namespace EnhancedTooltip
 			if (args[0] is Color) sb.Append("]");
 			return sb.ToString();
 		}
-
 	}
 }

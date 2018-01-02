@@ -7,4 +7,9 @@
     <StartArguments>
     </StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartProgram>C:\Program Files %28x86%29\Steam\steamapps\common\Terraria Modded\Terraria.exe</StartProgram>
+    <StartWorkingDirectory>C:\Program Files %28x86%29\Steam\steamapps\common\Terraria Modded</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
 </Project>
