@@ -79,7 +79,6 @@
     <Compile Include="Tooltip\SpeedTooltip.cs" />
     <Compile Include="Tooltip\DamageTooltip.cs" />
     <Compile Include="Tooltip\TwoColumnLine.cs" />
-    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build.txt" />
