@@ -23,7 +23,7 @@ namespace EnhancedTooltip.Tooltip
 			else if (knockback <= 11f) knockbackText = "Extremely strong";
 			else knockbackText = "Insane";
 
-			return new TwoColumnLine("Knockback:", $"{knockbackText} ({knockback:0.0})", line.color, TheOneLibrary.Utility.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, knockback / 11f), line.baseScale);
+			return new TwoColumnLine("Knockback:", $"{knockbackText} ({knockback:0.0})", line.color, TheOneLibrary.Utils.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, knockback / 11f), line.baseScale);
 		}
 	}
 }

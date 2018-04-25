@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ModLoader;
 using TheOneLibrary.Base;
-using TheOneLibrary.Utility;
+using TheOneLibrary.Utils;
 
 namespace EnhancedTooltip
 {

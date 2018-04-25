@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using static TheOneLibrary.Utility.Utility;
+using static TheOneLibrary.Utils.Utility;
 
 namespace EnhancedTooltip.Tooltip
 {

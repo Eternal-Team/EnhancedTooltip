@@ -6,13 +6,13 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using static TheOneLibrary.Utility.Utility;
+using static TheOneLibrary.Utils.Utility;
 
 namespace EnhancedTooltip
 {
 	public class ETItem : GlobalItem
 	{
-		public override bool InstancePerEntity => true;
+		public override bool InstancePerEntity => false;
 
 		public override bool CloneNewInstances => false;
 
@@ -21,8 +21,7 @@ namespace EnhancedTooltip
 			ETItem clone = (ETItem)base.Clone();
 			return clone;
 		}
-
-		// rarity bg -> PreDrawItemSlot
+		
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
 			TooltipLine itemName = tooltips.FirstOrDefault(x => x.Name == "ItemName");
@@ -54,8 +53,8 @@ namespace EnhancedTooltip
 			}
 		}
 
-		private Rectangle box;
-		private List<TwoColumnLine> twoColumnLines = new List<TwoColumnLine>();
+		private static Rectangle box;
+		private static List<TwoColumnLine> twoColumnLines = new List<TwoColumnLine>();
 
 		public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)
 		{

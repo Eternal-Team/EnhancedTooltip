@@ -11,10 +11,8 @@ namespace EnhancedTooltip
 
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
-			if (EnhancedTooltip.MoreInfo.JustPressed)
-				MoreInfo = !MoreInfo;
-			if (EnhancedTooltip.PrefixInfo.JustPressed)
-				PrefixInfo = !PrefixInfo;
+			if (EnhancedTooltip.MoreInfo.JustPressed) MoreInfo = !MoreInfo;
+			if (EnhancedTooltip.PrefixInfo.JustPressed) PrefixInfo = !PrefixInfo;
 		}
 
 		public override TagCompound Save() => new TagCompound
