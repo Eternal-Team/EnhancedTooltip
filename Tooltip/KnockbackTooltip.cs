@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TheOneLibrary.Utils;
 
 namespace EnhancedTooltip.Tooltip
 {
@@ -23,7 +24,7 @@ namespace EnhancedTooltip.Tooltip
 			else if (knockback <= 11f) knockbackText = "Extremely strong";
 			else knockbackText = "Insane";
 
-			return new TwoColumnLine("Knockback:", $"{knockbackText} ({knockback:0.0})", line.color, TheOneLibrary.Utils.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, knockback / 11f), line.baseScale);
+			return new TwoColumnLine("Knockback:", $"{knockbackText} ({knockback:0.0})", line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, knockback / 11f), line.baseScale);
 		}
 	}
 }

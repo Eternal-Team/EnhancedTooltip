@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TheOneLibrary.Utils;
 
 namespace EnhancedTooltip.Tooltip
 {
@@ -35,7 +36,8 @@ namespace EnhancedTooltip.Tooltip
 				textDamage = textDamage.Insert(0, "Throwing ");
 				itemDamage *= Main.LocalPlayer.thrownDamage;
 			}
-			return new TwoColumnLine(textDamage, ((int)itemDamage).ToString(), line.color, TheOneLibrary.Utils.Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.damage / (float)EnhancedTooltip.Instance.maxDamage), line.baseScale);
+
+			return new TwoColumnLine(textDamage, ((int)itemDamage).ToString(), line.color, Utility.DoubleLerp(Color.Red, Color.Yellow, Color.Lime, item.damage / (float)EnhancedTooltip.Instance.maxDamage), line.baseScale);
 		}
 	}
 }

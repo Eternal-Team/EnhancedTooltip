@@ -1,5 +1,5 @@
 ﻿author = Eternal Team
-version = 0.2.2
+version = 0.2.3
 displayName = Enhanced Tooltip
 homepage = http://forums.terraria.org/index.php?threads/itorius-mods.42289/
 hideCode = true

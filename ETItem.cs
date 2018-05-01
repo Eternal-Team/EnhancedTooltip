@@ -1,8 +1,8 @@
-﻿using EnhancedTooltip.Tooltip;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using EnhancedTooltip.Tooltip;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
@@ -21,7 +21,7 @@ namespace EnhancedTooltip
 			ETItem clone = (ETItem)base.Clone();
 			return clone;
 		}
-		
+
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
 			TooltipLine itemName = tooltips.FirstOrDefault(x => x.Name == "ItemName");
