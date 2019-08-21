@@ -49,7 +49,8 @@ namespace EnhancedTooltip
 				["UseMana"] = 0,
 				["HealLife"] = 0,
 				["HealMana"] = 0,
-				["TileBoost"] = 0
+				["TileBoost"] = 0,
+				["BuffTime"] = 0
 			};
 
 			foreach (Item item in Utility.Cache.ItemCache)
@@ -63,8 +64,12 @@ namespace EnhancedTooltip
 				if (item.bait > MaxItemStats["BaitPower"]) MaxItemStats["BaitPower"] = item.bait;
 
 				if (item.mana > MaxItemStats["UseMana"]) MaxItemStats["UseMana"] = item.mana;
+
+				// todo: separate damage from ammos from weapons
 				if (item.crit > MaxItemStats["Crit"]) MaxItemStats["Crit"] = item.crit;
+				// todo: separate damage from ammos from weapons
 				if (item.useAnimation > MaxItemStats["Speed"]) MaxItemStats["Speed"] = item.useAnimation;
+				// todo: separate damage from ammos from weapons
 				if (item.knockBack > MaxItemStats["Knockback"]) MaxItemStats["Knockback"] = (int)item.knockBack;
 
 				// todo: separate damage from ammos from weapons
@@ -80,6 +85,7 @@ namespace EnhancedTooltip
 				if (item.healMana > MaxItemStats["HealMana"]) MaxItemStats["HealMana"] = item.healMana;
 
 				if (item.tileBoost > MaxItemStats["TileBoost"]) MaxItemStats["TileBoost"] = item.tileBoost;
+				if (item.buffTime > MaxItemStats["BuffTime"]) MaxItemStats["BuffTime"] = item.buffTime;
 			}
 		}
 	}

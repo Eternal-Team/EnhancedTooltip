@@ -1,6 +1,8 @@
 ﻿using BaseLibrary;
 using Microsoft.Xna.Framework;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
@@ -32,9 +34,6 @@ namespace EnhancedTooltip
 
 		[DefaultValue(true)]
 		public bool ShowModName;
-
-		[DefaultValue(true)]
-		public bool TooltipUseValues;
 
 		[DefaultValue(1f), Label("Scale of item name")]
 		public float ItemNameScale;
@@ -154,9 +153,29 @@ namespace EnhancedTooltip
 			public bool EquipLight;
 			public bool MouseItem;
 			public bool CraftingMaterial;
+
+			public override bool Equals(object obj)
+			{
+				if (obj is RarityBackPage other)
+				{
+					FieldInfo[] infos = GetType().GetFields(Utility.defaultFlags).Where(info => info.FieldType == typeof(bool)).ToArray();
+					bool[] fields = infos.Select(info => info.GetValue(this)).Cast<bool>().ToArray();
+					bool[] otherFields = infos.Select(info => info.GetValue(other)).Cast<bool>().ToArray();
+
+					return fields.SequenceEqual(otherFields);
+				}
+
+				return false;
+			}
+
+			public override int GetHashCode()
+			{
+				FieldInfo[] infos = GetType().GetFields(Utility.defaultFlags).Where(info => info.FieldType == typeof(bool)).ToArray();
+				return infos.Select(info => info.GetValue(this)).Cast<bool>().ToArray().GetHashCode();
+			}
 		}
 
-		[Label("Formatting styles from numbers")]
+		[Label("Formatting styles for numbers")]
 		public NumberStylesPage NumberStyles = new NumberStylesPage();
 
 		[SeparatePage]
@@ -212,6 +231,10 @@ namespace EnhancedTooltip
 					}
 				}
 			}
+
+			public override bool Equals(object obj) => obj is NumberStylesPage other && Normal == other.Normal && ThousandsSeparator == other.ThousandsSeparator && Shortened == other.Shortened;
+
+			public override int GetHashCode() => new { Normal, ThousandsSeparator, Shortened }.GetHashCode();
 		}
 	}
 }

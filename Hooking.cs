@@ -60,6 +60,8 @@ namespace EnhancedTooltip
 				{
 					if (!item.IsAir && Config.DrawRarityBack && Config.RarityBackContexts.IsContextSet(context))
 					{
+						// todo: fix new items slot style
+
 						Color color = GetRarityColor(item) * Config.RarityBackAlpha;
 						if (Config.TooltipTextPulse) color *= Main.mouseTextColor / 255f;
 
