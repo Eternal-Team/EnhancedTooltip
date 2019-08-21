@@ -1,89 +1,93 @@
-﻿//using Microsoft.Xna.Framework;
-//using Microsoft.Xna.Framework.Graphics;
-//using Terraria;
-//using Terraria.UI.Chat;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
-//namespace EnhancedTooltip.Tooltip
-//{
-//	public class TwoColumnLine
-//	{
-//		public string textLeft, textRight;
-//		public string measureableTextLeft;
-//		public Color colorLeft, colorRight;
+namespace EnhancedTooltip.Tooltip
+{
+	public class TwoColumnLine
+	{
+		public readonly DrawableTooltipLine line;
 
-//		public Vector2 scaleL, scaleR;
+		public string textLeft, textRight;
 
-//		public Vector2 position = Vector2.Zero;
+		public Color colorLeft, colorRight = Color.White;
 
-//		public TwoColumnLine(string text) : this(text, "", Color.White, Color.White, Vector2.One, Vector2.One)
-//		{
-//		}
+		public Vector2 scaleLeft, scaleRight = Vector2.One;
 
-//		public TwoColumnLine(string text, Vector2 scale) : this(text, "", Color.White, Color.White, scale, scale)
-//		{
-//		}
+		public int X
+		{
+			get => line.X;
+			set => line.X = value;
+		}
 
-//		public TwoColumnLine(string text, Color c, Vector2 scale = default(Vector2)) : this(text, "", c, c, scale, scale)
-//		{
-//		}
+		public int Y
+		{
+			get => line.Y;
+			set => line.Y = value;
+		}
 
-//		public TwoColumnLine(string textLeft, string textRight) : this(textLeft, textRight, Color.White, Color.White, Vector2.One, Vector2.One)
-//		{
-//		}
+		public float Rotation => line.rotation;
 
-//		public TwoColumnLine(string textLeft, string textRight, Vector2 scale) : this(textLeft, textRight, Color.White, Color.White, scale, scale)
-//		{
-//		}
+		public Vector2 Origin => line.origin;
 
-//		public TwoColumnLine(string textLeft, string textRight, Vector2 scaleL, Vector2 scaleR) : this(textLeft, textRight, Color.White, Color.White, scaleL, scaleR)
-//		{
-//		}
+		public float Spread => line.spread;
 
-//		public TwoColumnLine(string textLeft, string textRight, Color color) : this(textLeft, textRight, color, color, Vector2.One, Vector2.One)
-//		{
-//		}
+		public float MaxWidth => line.maxWidth;
 
-//		public TwoColumnLine(string textLeft, string textRight, Color color, Vector2 scale) : this(textLeft, textRight, color, color, scale, scale)
-//		{
-//		}
+		public DynamicSpriteFont Font => line.font;
 
-//		public TwoColumnLine(string textLeft, string textRight, Color color, Vector2 scaleL, Vector2 scaleR) : this(textLeft, textRight, color, color, scaleL, scaleR)
-//		{
-//		}
+		public bool OneDropLogo => line.oneDropLogo;
 
-//		public TwoColumnLine(string textLeft, string textRight, Color colorLeft, Color colorRight) : this(textLeft, textRight, colorLeft, colorRight, Vector2.One, Vector2.One)
-//		{
-//		}
+		public Vector2 GetSize()
+		{
+			Vector2 size = Font.MeasureString(textLeft) * scaleLeft;
+			if (!string.IsNullOrWhiteSpace(textRight))
+			{
+				Vector2 sizeRight = Font.MeasureString(textRight) * scaleRight;
+				size.X += sizeRight.X + 32f;
+				if (sizeRight.Y > size.Y) size.Y = sizeRight.Y;
+			}
 
-//		public TwoColumnLine(string textLeft, string textRight, Color colorLeft, Color colorRight, Vector2 scale) : this(textLeft, textRight, colorLeft, colorRight, scale, scale)
-//		{
-//		}
+			return size + new Vector2(line.Name == "ItemName" && Main.HoverItem.favorited ? 32f : 0f, 0f);
+		}
 
-//		public TwoColumnLine(string textLeft, string textRight, Color colorLeft, Color colorRight, Vector2 scaleL, Vector2 scaleR)
-//		{
-//			this.textLeft = textLeft;
-//			this.textRight = textRight;
-//			this.colorLeft = colorLeft;
-//			this.colorRight = colorRight;
-//			this.scaleL = scaleL;
-//			this.scaleR = scaleR;
-//		}
+		public TwoColumnLine(DrawableTooltipLine line)
+		{
+			this.line = line;
+			colorLeft = line.overrideColor ?? line.color;
+			//scaleLeft = line.baseScale;
 
-//		public void Draw(SpriteBatch sb, Rectangle box)
-//		{
-//			position.X = (int)position.X;
-//			position.Y = (int)position.Y;
+			if (line.mod == "Terraria" && line.Name == "ItemName") scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().ItemNameScale);
+			else if (line.Name.Contains("Tooltip")) scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().TooltipTextScale);
+			else scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().OtherTextScale);
+		}
 
-//			if (string.IsNullOrEmpty(measureableTextLeft)) measureableTextLeft = textLeft;
+		public static TwoColumnLine CreateFromDrawableTooltipLine(Item item, DrawableTooltipLine line)
+		{
+			if (EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().UseTwoColumnLines && ModuleManager.Tooltips.ContainsKey(line.Name)) return ModuleManager.Tooltips[line.Name].Create(item, line);
 
-//			Vector2 sizeL = Main.fontMouseText.MeasureString(measureableTextLeft) * scaleL;
-//			Vector2 sizeR = Main.fontMouseText.MeasureString(textRight) * scaleR;
+			return new TwoColumnLine(line)
+			{
+				textLeft = line.text
+			};
+		}
 
-//			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, textLeft, position, colorLeft, 0f, Vector2.Zero, scaleL);
-//			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, textRight, position + new Vector2(box.Width - 24 - sizeR.X, 0), colorRight, 0f, Vector2.Zero, scaleR);
+		public void Draw(SpriteBatch spriteBatch, float width)
+		{
+			Vector2 position = new Vector2(X + 8f, Y + 8f);
 
-//			if (box.Width < sizeL.X + sizeR.X + 32) box.Width = (int)(sizeL.X + sizeR.X + 32);
-//		}
-//	}
-//}
+			if (!string.IsNullOrWhiteSpace(textLeft))
+			{
+				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Font, textLeft, position, colorLeft, Rotation, Origin, scaleLeft, MaxWidth, Spread);
+			}
 
+			if (!string.IsNullOrWhiteSpace(textRight))
+			{
+				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Font, textRight, position + new Vector2(width - 16f, 0), colorRight, Rotation, new Vector2(Font.MeasureString(textRight).X, 0), scaleRight, MaxWidth, Spread);
+			}
+		}
+	}
+}
