@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Heals",
 				textRight = item.healLife + " life",
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.healLife / EnhancedTooltip.GetStat("HealLife"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.healLife / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HealLife))
 			};
 		}
 	}

@@ -11,6 +11,10 @@ namespace EnhancedTooltip.Tooltip
 	{
 		public readonly DrawableTooltipLine line;
 
+		public string Name => line.Name;
+
+		public string Mod => line.mod;
+
 		public string textLeft, textRight;
 
 		public Color colorLeft, colorRight = Color.White;
@@ -58,11 +62,15 @@ namespace EnhancedTooltip.Tooltip
 		{
 			this.line = line;
 			colorLeft = line.overrideColor ?? line.color;
-			//scaleLeft = line.baseScale;
 
-			if (line.mod == "Terraria" && line.Name == "ItemName") scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().ItemNameScale);
-			else if (line.Name.Contains("Tooltip")) scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().TooltipTextScale);
-			else scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().OtherTextScale);
+			if (!(Mod == "Terraria" && Name == "ItemName")) line.Y += 8;
+
+			if (!OneDropLogo)
+			{
+				if (Mod == "Terraria" && Name == "ItemName") scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().ItemNameScale);
+				else if (Name.Contains("Tooltip")) scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().TooltipTextScale);
+				else scaleLeft = new Vector2(EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().OtherTextScale);
+			}
 		}
 
 		public static TwoColumnLine CreateFromDrawableTooltipLine(Item item, DrawableTooltipLine line)

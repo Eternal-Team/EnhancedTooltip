@@ -1,6 +1,7 @@
 ﻿using BaseLibrary;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EnhancedTooltip.Tooltip
@@ -25,8 +26,22 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Speed",
 				textRight = $"{speedText} ({item.useAnimation})",
-				colorRight = Utility.DoubleLerp(Color.LimeGreen, Color.Yellow, Color.Red, (float)item.useAnimation / EnhancedTooltip.GetStat("Speed"))
+				colorRight = Utility.DoubleLerp(Color.LimeGreen, Color.Yellow, Color.Red, item.useAnimation / GetMaxSpeed(item))
 			};
+		}
+
+		private static float GetMaxSpeed(Item item)
+		{
+			float maxSpeed = 1f;
+
+			if (item.melee) maxSpeed = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MeleeSpeed);
+			if (item.ranged && item.ammo == AmmoID.None) maxSpeed = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedItemSpeed);
+			if (item.ranged && item.ammo != AmmoID.None) maxSpeed = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedAmmoSpeed);
+			if (item.magic) maxSpeed = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MagicSpeed);
+			if (item.summon) maxSpeed = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.SummonSpeed);
+			if (item.thrown) maxSpeed = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.ThrownSpeed);
+
+			return maxSpeed;
 		}
 	}
 }

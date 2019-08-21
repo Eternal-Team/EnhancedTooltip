@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Defense",
 				textRight = Config.NumberStyles.FormatNumber(item.defense),
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.defense / EnhancedTooltip.GetStat("Defense"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.defense / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.Defense))
 			};
 		}
 	}

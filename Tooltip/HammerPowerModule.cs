@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Hammer power",
 				textRight = Config.NumberStyles.FormatNumber(item.hammer),
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.hammer / EnhancedTooltip.GetStat("HammerPower"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.hammer / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HammerPower))
 			};
 		}
 	}

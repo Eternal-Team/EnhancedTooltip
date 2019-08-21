@@ -49,8 +49,21 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Critical strike chance",
 				textRight = critChance + "%",
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)critChance / EnhancedTooltip.GetStat("Crit"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, critChance / GetMaxCrit(item))
 			};
+		}
+
+		private static float GetMaxCrit(Item item)
+		{
+			float maxCrit = 1f;
+
+			if (item.melee) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MeleeCrit);
+			if (item.ranged ) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedCrit);
+			if (item.magic) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MagicCrit);
+			if (item.summon) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.SummonCrit);
+			if (item.thrown) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.ThrownCrit);
+
+			return maxCrit;
 		}
 	}
 }

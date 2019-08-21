@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Range",
 				textRight = (item.tileBoost > 0 ? "+" : "") + item.tileBoost,
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.tileBoost / EnhancedTooltip.GetStat("TileBoost"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.tileBoost / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.TileBoost))
 			};
 		}
 	}

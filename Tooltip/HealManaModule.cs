@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Restores",
 				textRight = item.healMana + " mana",
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.healMana / EnhancedTooltip.GetStat("HealMana"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.healMana / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HealMana))
 			};
 		}
 	}

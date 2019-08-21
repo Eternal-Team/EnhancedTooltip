@@ -37,8 +37,22 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Knockback",
 				textRight = $"{knockbackText} ({knockback:F1})",
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, knockback / EnhancedTooltip.GetStat("Knockback"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, knockback / GetMaxKnockback(item))
 			};
+		}
+
+		private static float GetMaxKnockback(Item item)
+		{
+			float maxKnockback = 1f;
+
+			if (item.melee) maxKnockback = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MeleeKnockback);
+			if (item.ranged && item.ammo == AmmoID.None) maxKnockback = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedItemKnockback);
+			if (item.ranged && item.ammo != AmmoID.None) maxKnockback = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedAmmoKnockback);
+			if (item.magic) maxKnockback = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MagicKnockback);
+			if (item.summon) maxKnockback = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.SummonKnockback);
+			if (item.thrown) maxKnockback = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.ThrownKnockback);
+
+			return maxKnockback;
 		}
 	}
 }

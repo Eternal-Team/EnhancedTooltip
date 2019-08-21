@@ -24,7 +24,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Buff duration",
 				textRight = text,
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.buffTime / EnhancedTooltip.GetStat("BuffTime"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.buffTime / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.BuffTime))
 			};
 		}
 	}

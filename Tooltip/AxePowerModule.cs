@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Axe power",
 				textRight = Config.NumberStyles.FormatNumber(item.axe * 5),
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.axe / EnhancedTooltip.GetStat("AxePower"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.axe / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.AxePower))
 			};
 		}
 	}

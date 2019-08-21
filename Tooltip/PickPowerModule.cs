@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Pickaxe power",
 				textRight = Config.NumberStyles.FormatNumber(item.pick),
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.pick / EnhancedTooltip.GetStat("PickaxePower"))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.pick / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.PickaxePower))
 			};
 		}
 	}
