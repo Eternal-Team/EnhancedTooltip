@@ -35,15 +35,14 @@ namespace EnhancedTooltip
 
 			if (item.modItem != null && Config.ShowModName) tooltips.Add(new TooltipLine(mod, "ModName", $"Added by {item.modItem.mod.DisplayName}"));
 
-			//for (int i = 0; i < tooltips.Count; i++)
-			//{
-			//	TooltipLine line = tooltips[i];
-			//	if (line.Name.Contains("Tooltip"))
-			//	{
-			//		tooltips.Remove(line);
-			//		tooltips.Add(line);
-			//	}
-			//}
+			for (int i = 0; i < tooltips.Count; i++)
+			{
+				TooltipLine line = tooltips[i];
+				if (line.Name.Contains("Tooltip")) tooltips.MoveToEnd(i);
+			}
+
+			int index = tooltips.FindLastIndex(line => line.mod == "Terraria" && (line.Name == "Price" || line.Name == "SpecialPrice"));
+			if (index != -1) tooltips.MoveToEnd(index);
 		}
 
 		public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)

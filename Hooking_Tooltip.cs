@@ -830,11 +830,6 @@ namespace EnhancedTooltip
 				}
 				else if (item.GetStoreValue() > 0)
 				{
-					string text = "";
-					int num21 = 0;
-					int num22 = 0;
-					int num23 = 0;
-					int num24 = 0;
 					int value = storeValue * item.stack;
 					if (!item.buy)
 					{
@@ -844,84 +839,24 @@ namespace EnhancedTooltip
 						value *= item.stack;
 					}
 
-					if (value < 1)
-					{
-						value = 1;
-					}
+					if (value < 1) value = 1;
 
-					// note: use this
 					int[] coinStacks = Utils.CoinsSplit(value);
-
-					if (value >= 1000000)
+					
+					string text = "";
+					for (int i = coinStacks.Length - 1; i >= 0; i--)
 					{
-						num21 = value / 1000000;
-						value -= num21 * 1000000;
+						if (coinStacks[i] > 0) text += $"{coinStacks[i]} {Language.GetTextValue($"LegacyInterface.{18 - i}")} ";
 					}
-
-					if (value >= 10000)
-					{
-						num22 = value / 10000;
-						value -= num22 * 10000;
-					}
-
-					if (value >= 100)
-					{
-						num23 = value / 100;
-						value -= num23 * 100;
-					}
-
-					if (value >= 1)
-					{
-						num24 = value;
-					}
-
-					if (num21 > 0)
-					{
-						text = $"{text}{num21} {Language.GetTextValue("LegacyInterface.15")} ";
-					}
-
-					if (num22 > 0)
-					{
-						text = $"{text}{num22} {Language.GetTextValue("LegacyInterface.16")} ";
-					}
-
-					if (num23 > 0)
-					{
-						text = $"{text}{num23} {Language.GetTextValue("LegacyInterface.17")} ";
-					}
-
-					if (num24 > 0)
-					{
-						text = $"{text}{num24} {Language.GetTextValue("LegacyInterface.18")} ";
-					}
-
-					if (!item.buy)
-					{
-						texts[lenght] = Language.GetTextValue("LegacyTooltip.49") + " " + text;
-					}
-					else
-					{
-						texts[lenght] = Language.GetTextValue("LegacyTooltip.50") + " " + text;
-					}
+					
+					texts[lenght] = !item.buy ? Language.GetTextValue("LegacyTooltip.49") + " " + text : Language.GetTextValue("LegacyTooltip.50") + " " + text;
 
 					tooltipNames[lenght] = "Price";
 					lenght++;
-					if (num21 > 0)
-					{
-						color = new Color((byte)(220f * dark), (byte)(220f * dark), (byte)(198f * dark), alpha);
-					}
-					else if (num22 > 0)
-					{
-						color = new Color((byte)(224f * dark), (byte)(201f * dark), (byte)(92f * dark), alpha);
-					}
-					else if (num23 > 0)
-					{
-						color = new Color((byte)(181f * dark), (byte)(192f * dark), (byte)(193f * dark), alpha);
-					}
-					else if (num24 > 0)
-					{
-						color = new Color((byte)(246f * dark), (byte)(138f * dark), (byte)(96f * dark), alpha);
-					}
+					if (coinStacks[3] > 0) color = new Color((byte)(220f * dark), (byte)(220f * dark), (byte)(198f * dark), alpha);
+					else if (coinStacks[2] > 0) color = new Color((byte)(224f * dark), (byte)(201f * dark), (byte)(92f * dark), alpha);
+					else if (coinStacks[1] > 0) color = new Color((byte)(181f * dark), (byte)(192f * dark), (byte)(193f * dark), alpha);
+					else if (coinStacks[0] > 0) color = new Color((byte)(246f * dark), (byte)(138f * dark), (byte)(96f * dark), alpha);
 				}
 				else if (item.type != 3817)
 				{
