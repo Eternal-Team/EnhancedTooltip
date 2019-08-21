@@ -46,7 +46,8 @@ namespace EnhancedTooltip
 		{
 			ILCursor cursor = new ILCursor(il);
 			Texture2D rarityBack = ModContent.GetTexture("EnhancedTooltip/Textures/RarityBack");
-			Texture2D favoriteOverlay = ModContent.GetTexture("EnhancedTooltip/Textures/FavoriteOverlay");
+			Texture2D rarityBackFavorite = ModContent.GetTexture("EnhancedTooltip/Textures/RarityBackFavorite");
+			Texture2D rarityBackNew = ModContent.GetTexture("EnhancedTooltip/Textures/RarityBackNew");
 
 			if (cursor.TryGotoNext(i => i.MatchLdcI4(-1), i => i.MatchStloc(10)))
 			{
@@ -60,12 +61,16 @@ namespace EnhancedTooltip
 				{
 					if (!item.IsAir && Config.DrawRarityBack && Config.RarityBackContexts.IsContextSet(context))
 					{
-						// todo: fix new items slot style
-
 						Color color = GetRarityColor(item) * Config.RarityBackAlpha;
 						if (Config.TooltipTextPulse) color *= Main.mouseTextColor / 255f;
 
-						spriteBatch.Draw(item.favorited ? favoriteOverlay : rarityBack, position, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+						bool validContext = context != 13 && context != 21 && context != 14 && context != 22;
+						Texture2D texture;
+						if (Terraria.UI.ItemSlot.Options.HighlightNewItems && item.newAndShiny && validContext) texture = rarityBackNew;
+						else if (item.favorited && validContext) texture = rarityBackFavorite;
+						else texture = rarityBack;
+
+						spriteBatch.Draw(texture, position, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 					}
 				});
 			}
