@@ -14,6 +14,9 @@
     <Exec Command="&quot;G:\C#\Terraria\TerrariaCompiler\Builds\Debug\Binaries\TerrariaCompiler.exe&quot; &quot;$(ProjectDir)\&quot;" />
   </Target>
   <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Libraries\BaseLibrary\BaseLibrary.csproj" />
   </ItemGroup>
 </Project>

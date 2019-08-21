@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BaseLibrary;
+using Microsoft.Xna.Framework;
 using System.ComponentModel;
+using Terraria;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
 
@@ -10,35 +12,47 @@ namespace EnhancedTooltip
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
-		[DefaultValue(typeof(Color), "73, 94, 171, 255")] [Label("Tooltip background color")]
+		[DefaultValue(typeof(Color), "73, 94, 171, 255"), Label("Tooltip background color")]
 		public Color TooltipPanelColor;
 
-		[DefaultValue(true)] [Label("Draw rarity background")]
+		[DefaultValue(true), Label("Draw rarity background")]
 		public bool DrawRarityBack;
 
-		[DefaultValue(true)] [Label("Pulse tooltip text")]
+		[DefaultValue(true), Label("Pulse tooltip text")]
 		public bool TooltipTextPulse;
 
-		[DefaultValue(true)] [Label("Draw favorite icon instead of text")]
+		[DefaultValue(true), Label("Draw favorite icon instead of text")]
 		public bool FavoriteUseIcon;
 
-		[DefaultValue(1f)] [Label("Scale of item name")]
+		[DefaultValue(false)]
+		public bool ShowMaxStack;
+
+		[DefaultValue(true)]
+		public bool UseTwoColumnLines;
+
+		[DefaultValue(true)]
+		public bool ShowModName;
+
+		[DefaultValue(true)]
+		public bool TooltipUseValues;
+
+		[DefaultValue(1f), Label("Scale of item name")]
 		public float ItemNameScale;
 
-		[DefaultValue(0.8f)] [Label("Scale of tooltip text")]
+		[DefaultValue(0.9f), Label("Scale of tooltip text")]
 		public float TooltipTextScale;
 
-		[DefaultValue(0.9f)] [Label("Scale of other text")]
+		[DefaultValue(0.9f), Label("Scale of other text")]
 		public float OtherTextScale;
 
-		[DefaultValue(0.5f)] [Range(0f, 1f)] [Label("Alpha for rarity background")]
+		[DefaultValue(0.7f), Range(0f, 1f), Label("Alpha for rarity background")]
 		public float RarityBackAlpha;
 
 		[Label("Valid contexts for rendering rarity background")]
-		public SubConfigExample RarityBackContexts = new SubConfigExample();
+		public RarityBackPage RarityBackContexts = new RarityBackPage();
 
 		[SeparatePage]
-		public class SubConfigExample
+		public class RarityBackPage
 		{
 			public bool IsContextSet(int context)
 			{
@@ -95,22 +109,44 @@ namespace EnhancedTooltip
 				return false;
 			}
 
-			[DefaultValue(true)] public bool InventoryItem;
-			[DefaultValue(true)] public bool InventoryCoin;
-			[DefaultValue(true)] public bool InventoryAmmo;
-			[DefaultValue(true)] public bool ChestItem;
-			[DefaultValue(true)] public bool BankItem;
+			[DefaultValue(true)]
+			public bool InventoryItem;
+
+			[DefaultValue(true)]
+			public bool InventoryCoin;
+
+			[DefaultValue(true)]
+			public bool InventoryAmmo;
+
+			[DefaultValue(true)]
+			public bool ChestItem;
+
+			[DefaultValue(true)]
+			public bool BankItem;
+
 			public bool PrefixItem;
 			public bool TrashItem;
 			public bool GuideItem;
-			[DefaultValue(true)] public bool EquipArmor;
+
+			[DefaultValue(true)]
+			public bool EquipArmor;
+
 			public bool EquipArmorVanity;
-			[DefaultValue(true)] public bool EquipAccessory;
+
+			[DefaultValue(true)]
+			public bool EquipAccessory;
+
 			public bool EquipAccessoryVanity;
 			public bool EquipDye;
-			[DefaultValue(true)] public bool HotbarItem;
+
+			[DefaultValue(true)]
+			public bool HotbarItem;
+
 			public bool ChatItem;
-			[DefaultValue(true)] public bool ShopItem;
+
+			[DefaultValue(true)]
+			public bool ShopItem;
+
 			public bool EquipGrapple;
 			public bool EquipMount;
 			public bool EquipMinecart;
@@ -118,6 +154,64 @@ namespace EnhancedTooltip
 			public bool EquipLight;
 			public bool MouseItem;
 			public bool CraftingMaterial;
+		}
+
+		[Label("Formatting styles from numbers")]
+		public NumberStylesPage NumberStyles = new NumberStylesPage();
+
+		[SeparatePage]
+		public class NumberStylesPage
+		{
+			public string FormatNumber(double value)
+			{
+				if (Normal) return value.ToString("F0");
+				if (ThousandsSeparator) return value.ToString("N0");
+				return Shortened ? value.ToSI("F1") : null;
+			}
+
+			private bool normal;
+			private bool thousandsSeparator;
+			private bool shortened;
+
+			[DefaultValue(true)]
+			public bool Normal
+			{
+				get => normal;
+				set
+				{
+					if (value)
+					{
+						normal = true;
+						thousandsSeparator = shortened = false;
+					}
+				}
+			}
+
+			public bool ThousandsSeparator
+			{
+				get => thousandsSeparator;
+				set
+				{
+					if (value)
+					{
+						thousandsSeparator = true;
+						normal = shortened = false;
+					}
+				}
+			}
+
+			public bool Shortened
+			{
+				get => shortened;
+				set
+				{
+					if (value)
+					{
+						shortened = true;
+						normal = thousandsSeparator = false;
+					}
+				}
+			}
 		}
 	}
 }

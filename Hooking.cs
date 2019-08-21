@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using On.Terraria;
 using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace EnhancedTooltip
 {
-	internal static class Hooking
+	internal static partial class Hooking
 	{
 		private static EnhancedTooltipConfig Config => EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>();
 
@@ -18,9 +18,11 @@ namespace EnhancedTooltip
 
 		internal static void Load()
 		{
-			Main.MouseText_DrawItemTooltip += ModifyColorPulse;
+			On.Terraria.Main.MouseText_DrawItemTooltip += Main_MouseText_DrawItemTooltip;
 
 			ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += ItemSlot_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color;
+
+			//On.Terraria.Main.MouseText_DrawItemTooltip += Main_MouseText_DrawItemTooltip;
 
 			Rarities = new Dictionary<int, Color>
 			{
@@ -44,6 +46,7 @@ namespace EnhancedTooltip
 		{
 			ILCursor cursor = new ILCursor(il);
 			Texture2D rarityBack = ModContent.GetTexture("EnhancedTooltip/Textures/RarityBack");
+			Texture2D favoriteOverlay = ModContent.GetTexture("EnhancedTooltip/Textures/FavoriteOverlay");
 
 			if (cursor.TryGotoNext(i => i.MatchLdcI4(-1), i => i.MatchStloc(10)))
 			{
@@ -53,36 +56,38 @@ namespace EnhancedTooltip
 				cursor.Emit(OpCodes.Ldloc, 2);
 				cursor.Emit(OpCodes.Ldarg, 2);
 
-				cursor.EmitDelegate<Action<SpriteBatch, Terraria.Item, Vector2, float, int>>((spriteBatch, item, position, scale, context) =>
+				cursor.EmitDelegate<Action<SpriteBatch, Item, Vector2, float, int>>((spriteBatch, item, position, scale, context) =>
 				{
-					// todo: fix inventoryback10 and inventoryback15
-
-					if (Config.DrawRarityBack && Config.RarityBackContexts.IsContextSet(context))
+					if (!item.IsAir && Config.DrawRarityBack && Config.RarityBackContexts.IsContextSet(context))
 					{
 						Color color = GetRarityColor(item) * Config.RarityBackAlpha;
-						if (Config.TooltipTextPulse) color *= Terraria.Main.mouseTextColor / 255f;
+						if (Config.TooltipTextPulse) color *= Main.mouseTextColor / 255f;
 
-						spriteBatch.Draw(rarityBack, position, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+						spriteBatch.Draw(item.favorited ? favoriteOverlay : rarityBack, position, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 					}
 				});
 			}
 		}
 
-		private static void ModifyColorPulse(Main.orig_MouseText_DrawItemTooltip orig, Terraria.Main self, int rare, byte diff, int X, int Y)
+		private static void Main_MouseText_DrawItemTooltip(On.Terraria.Main.orig_MouseText_DrawItemTooltip orig, Main self, int rare, byte diff, int X, int Y)
 		{
-			byte prevColor = Terraria.Main.mouseTextColor;
-			if (!Config.TooltipTextPulse) Terraria.Main.mouseTextColor = 250;
+			byte prevColor = Main.mouseTextColor;
+			if (!Config.TooltipTextPulse) Main.mouseTextColor = 250;
 
-			orig(self, rare, diff, X, Y);
+			DrawTooltip(diff, X, Y);
 
-			Terraria.Main.mouseTextColor = prevColor;
+			Main.mouseTextColor = prevColor;
 		}
 
-		// note: a way to register custom rarity?
-		private static Color GetRarityColor(Terraria.Item item)
+		public static void RegisterRarityColor(int rarity, Color color)
+		{
+			if (!Rarities.ContainsKey(rarity)) Rarities.Add(rarity, color);
+		}
+
+		private static Color GetRarityColor(Item item)
 		{
 			if (Rarities.ContainsKey(item.rare)) return Rarities[item.rare];
-			if (item.expert || item.rare == -12) return Terraria.Main.DiscoColor;
+			if (item.expert || item.rare == -12) return Main.DiscoColor;
 			return item.rare > 11 ? Rarities[11] : Color.White;
 		}
 	}
