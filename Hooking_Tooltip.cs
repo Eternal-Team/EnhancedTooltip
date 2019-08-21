@@ -44,7 +44,7 @@ namespace EnhancedTooltip
 			X += tooltipDistance;
 			Y += tooltipDistance;
 
-			EnhancedTooltipItem.ModifyTooltipMetrics(ref X, ref Y, ref size.X, ref size.Y);
+			EnhancedTooltipItem.ModifyTooltipMetrics(twoColumnLines.AsReadOnly(), ref X, ref Y, ref size.X, ref size.Y);
 
 			if (X + size.X + 4f > Main.screenWidth) X = (int)(Main.screenWidth - size.X - 4f);
 			if (Y + size.Y + 4f > Main.screenHeight) Y = (int)(Main.screenHeight - size.Y - 4f);
@@ -115,7 +115,7 @@ namespace EnhancedTooltip
 				Y += (int)(line.GetSize().Y + yOffset);
 			}
 
-			ItemLoader.PostDrawTooltip(item, drawableLines.AsReadOnly());
+			EnhancedTooltipItem.PostDrawTooltip(item, twoColumnLines.AsReadOnly(), X, Y, size.X, size.Y);
 		}
 
 		private static void GetTooltips(Player player, Item item, out int lenght, out int oneDropLogoIndex, out Color color, out string[] tooltipNames, out string[] texts, out bool[] modifiers, out bool[] badModifiers)
@@ -842,13 +842,13 @@ namespace EnhancedTooltip
 					if (value < 1) value = 1;
 
 					int[] coinStacks = Utils.CoinsSplit(value);
-					
+
 					string text = "";
 					for (int i = coinStacks.Length - 1; i >= 0; i--)
 					{
 						if (coinStacks[i] > 0) text += $"{coinStacks[i]} {Language.GetTextValue($"LegacyInterface.{18 - i}")} ";
 					}
-					
+
 					texts[lenght] = !item.buy ? Language.GetTextValue("LegacyTooltip.49") + " " + text : Language.GetTextValue("LegacyTooltip.50") + " " + text;
 
 					tooltipNames[lenght] = "Price";
