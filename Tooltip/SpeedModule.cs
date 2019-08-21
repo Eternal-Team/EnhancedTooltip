@@ -1,7 +1,6 @@
 ﻿using BaseLibrary;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace EnhancedTooltip.Tooltip
@@ -12,29 +11,21 @@ namespace EnhancedTooltip.Tooltip
 
 		internal override TwoColumnLine Create(Item item, DrawableTooltipLine line)
 		{
-			if (Config.TooltipUseValues)
-			{
-				return new TwoColumnLine(line)
-				{
-					textLeft = "Speed",
-					textRight = item.useAnimation.ToString(),
-					colorRight = Utility.DoubleLerp(Color.LimeGreen, Color.Yellow, Color.Red, (float)item.useAnimation / EnhancedTooltip.GetStat("Speed"))
-				};
-			}
-
-			string text;
-			if (item.useAnimation <= 8) text = Language.GetTextValue("LegacyTooltip.6");
-			else if (item.useAnimation <= 20) text = Language.GetTextValue("LegacyTooltip.7");
-			else if (item.useAnimation <= 25) text = Language.GetTextValue("LegacyTooltip.8");
-			else if (item.useAnimation <= 30) text = Language.GetTextValue("LegacyTooltip.9");
-			else if (item.useAnimation <= 35) text = Language.GetTextValue("LegacyTooltip.10");
-			else if (item.useAnimation <= 45) text = Language.GetTextValue("LegacyTooltip.11");
-			else if (item.useAnimation <= 55) text = Language.GetTextValue("LegacyTooltip.12");
-			else text = Language.GetTextValue("LegacyTooltip.13");
+			string speedText;
+			if (item.useAnimation <= 8) speedText = "Insanely fast";
+			else if (item.useAnimation <= 20) speedText = "Very fast";
+			else if (item.useAnimation <= 25) speedText = "Fast";
+			else if (item.useAnimation <= 30) speedText = "Average";
+			else if (item.useAnimation <= 35) speedText = "Slow";
+			else if (item.useAnimation <= 45) speedText = "Very slow";
+			else if (item.useAnimation <= 55) speedText = "Extremely slow";
+			else speedText = "Snail";
 
 			return new TwoColumnLine(line)
 			{
-				textLeft = text
+				textLeft = "Speed",
+				textRight = $"{speedText} ({item.useAnimation})",
+				colorRight = Utility.DoubleLerp(Color.LimeGreen, Color.Yellow, Color.Red, (float)item.useAnimation / EnhancedTooltip.GetStat("Speed"))
 			};
 		}
 	}
