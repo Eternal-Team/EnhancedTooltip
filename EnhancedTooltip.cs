@@ -9,6 +9,7 @@ using static EnhancedTooltip.EnhancedTooltip.Stat;
 
 namespace EnhancedTooltip
 {
+	// todo: stat decomposition for damage/speed/crit
 	public class EnhancedTooltip : Mod
 	{
 		internal static EnhancedTooltip Instance;

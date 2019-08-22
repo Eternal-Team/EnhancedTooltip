@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.UI.Chat;
 
-namespace EnhancedTooltip.Tooltip.Common
+namespace EnhancedTooltip.Tooltip.Equipable
 {
 	public class SocialLine : BaseTooltipLine
 	{

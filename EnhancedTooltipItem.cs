@@ -21,6 +21,7 @@ namespace EnhancedTooltip
 		{
 			if (Config.FavoriteUseIcon) tooltips.RemoveAll(tooltip => tooltip is FavoriteLine);
 
+			// todo: put this bellow item name and assign it color
 			if (item.modItem != null && Config.ShowModName) tooltips.Add(new TextLine { Text = $"Added by {item.modItem.mod.DisplayName}" });
 
 			for (int i = 0; i < tooltips.Count; i++)

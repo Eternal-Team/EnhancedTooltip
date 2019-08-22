@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.Localization;
 
-namespace EnhancedTooltip.Tooltip.Common
+namespace EnhancedTooltip.Tooltip.Equipable
 {
 	public class DefenseLine : BaseSimpleLine
 	{
