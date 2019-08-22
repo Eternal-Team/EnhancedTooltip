@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class DefenseModule : BaseModule
 	{
@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Defense",
 				textRight = Config.NumberStyles.FormatNumber(item.defense),
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.defense / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.Defense))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, item.defense / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.Defense))
 			};
 		}
 	}

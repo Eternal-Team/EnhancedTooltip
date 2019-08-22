@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	public class TwoColumnLine
 	{
@@ -61,6 +61,7 @@ namespace EnhancedTooltip.Tooltip
 		public TwoColumnLine(DrawableTooltipLine line)
 		{
 			this.line = line;
+			textLeft = line.text;
 			colorLeft = line.overrideColor ?? line.color;
 
 			if (!(Mod == "Terraria" && Name == "ItemName")) line.Y += 8;
@@ -77,10 +78,7 @@ namespace EnhancedTooltip.Tooltip
 		{
 			if (EnhancedTooltip.Instance.GetConfig<EnhancedTooltipConfig>().UseTwoColumnLines && ModuleManager.Tooltips.ContainsKey(line.Name)) return ModuleManager.Tooltips[line.Name].Create(item, line);
 
-			return new TwoColumnLine(line)
-			{
-				textLeft = line.text
-			};
+			return new TwoColumnLine(line);
 		}
 
 		public void Draw(SpriteBatch spriteBatch, float width)

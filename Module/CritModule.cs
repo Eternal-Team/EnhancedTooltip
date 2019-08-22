@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class CritModule : BaseModule
 	{
@@ -58,9 +58,8 @@ namespace EnhancedTooltip.Tooltip
 			float maxCrit = 1f;
 
 			if (item.melee) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MeleeCrit);
-			if (item.ranged ) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedCrit);
+			if (item.ranged) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.RangedCrit);
 			if (item.magic) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.MagicCrit);
-			if (item.summon) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.SummonCrit);
 			if (item.thrown) maxCrit = EnhancedTooltip.GetStat(EnhancedTooltip.Stat.ThrownCrit);
 
 			return maxCrit;

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class HammerPowerModule : BaseModule
 	{
@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Hammer power",
 				textRight = Config.NumberStyles.FormatNumber(item.hammer),
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.hammer / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HammerPower))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, item.hammer / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HammerPower))
 			};
 		}
 	}

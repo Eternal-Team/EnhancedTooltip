@@ -91,7 +91,7 @@ namespace EnhancedTooltip
 			if (!Rarities.ContainsKey(rarity)) Rarities.Add(rarity, color);
 		}
 
-		private static Color GetRarityColor(Item item)
+		internal static Color GetRarityColor(Item item)
 		{
 			if (Rarities.ContainsKey(item.rare)) return Rarities[item.rare];
 			if (item.expert || item.rare == -12) return Main.DiscoColor;

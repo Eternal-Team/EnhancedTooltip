@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class TileBoostModule : BaseModule
 	{
@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Range",
 				textRight = (item.tileBoost > 0 ? "+" : "") + item.tileBoost,
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.tileBoost / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.TileBoost))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, item.tileBoost / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.TileBoost))
 			};
 		}
 	}

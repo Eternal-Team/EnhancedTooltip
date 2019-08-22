@@ -1,5 +1,5 @@
 using BaseLibrary;
-using EnhancedTooltip.Tooltip;
+using EnhancedTooltip.Module;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
@@ -43,7 +43,6 @@ namespace EnhancedTooltip
 			MeleeCrit,
 			RangedCrit,
 			MagicCrit,
-			SummonCrit,
 			ThrownCrit,
 
 			MeleeSpeed,
@@ -61,6 +60,8 @@ namespace EnhancedTooltip
 			ThrownKnockback,
 
 			MeleeDamage,
+
+			// todo: per different type? arrow, buller, dart...
 			RangedItemDamage,
 			RangedAmmoDamage,
 			MagicDamage,
@@ -89,7 +90,6 @@ namespace EnhancedTooltip
 				[MeleeCrit] = 0,
 				[RangedCrit] = 0,
 				[MagicCrit] = 0,
-				[SummonCrit] = 0,
 				[ThrownCrit] = 0,
 
 				[MeleeSpeed] = 0,
@@ -135,7 +135,6 @@ namespace EnhancedTooltip
 				if (item.melee && item.crit > MaxItemStats[MeleeCrit]) MaxItemStats[MeleeCrit] = item.crit;
 				if (item.ranged && item.crit > MaxItemStats[RangedCrit]) MaxItemStats[RangedCrit] = item.crit;
 				if (item.magic && item.crit > MaxItemStats[MagicCrit]) MaxItemStats[MagicCrit] = item.crit;
-				if (item.summon && item.crit > MaxItemStats[SummonCrit]) MaxItemStats[SummonCrit] = item.crit;
 				if (item.thrown && item.crit > MaxItemStats[ThrownCrit]) MaxItemStats[ThrownCrit] = item.crit;
 
 				if (item.melee && item.useAnimation > MaxItemStats[MeleeSpeed]) MaxItemStats[MeleeSpeed] = item.useAnimation;

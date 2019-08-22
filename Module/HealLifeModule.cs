@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class HealLifeModule : BaseModule
 	{
@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Heals",
 				textRight = item.healLife + " life",
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.healLife / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HealLife))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, item.healLife / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HealLife))
 			};
 		}
 	}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terraria;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal static class ModuleManager
 	{

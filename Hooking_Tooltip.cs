@@ -1,7 +1,6 @@
 ﻿using BaseLibrary;
 using EnhancedTooltip.Tooltip;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,97 +24,44 @@ namespace EnhancedTooltip
 			Player player = Main.LocalPlayer;
 			Item item = Main.HoverItem;
 
-			GetTooltips(player, item, out int lenght, out int oneDropLogoIndex, out Color color, out string[] tooltipNames, out string[] texts, out bool[] modifiers, out bool[] badModifiers);
-
-			List<TooltipLine> lines = ItemLoader.ModifyTooltips(item, ref lenght, tooltipNames, ref texts, ref modifiers, ref badModifiers, ref oneDropLogoIndex, out var overrideColor);
-
-			List<DrawableTooltipLine> drawableLines = lines.Select((x, i) => new DrawableTooltipLine(x, i, 0, 0, Color.White)).ToList();
-
-			List<TwoColumnLine> twoColumnLines = drawableLines.Select(line => TwoColumnLine.CreateFromDrawableTooltipLine(item, line)).ToList();
+			// todo: only get lines when HoverItem changes
+			List<BaseTooltipLine> lines = TooltipManager.GetLines(player, item).ToList();
 
 			Vector2 size = Vector2.Zero;
-			foreach (Vector2 vector in twoColumnLines.Select(line => line.GetSize()))
+			foreach (Vector2 lineSize in lines.Select(line => line.GetSize()))
 			{
-				if (vector.X > size.X) size.X = vector.X;
-				size.Y += vector.Y;
+				if (lineSize.X > size.X) size.X = lineSize.X;
+				size.Y += lineSize.Y;
 			}
 
 			int tooltipDistance = (int)(tooltipDistanceInfo?.GetValue(null) ?? 0);
 			X += tooltipDistance;
 			Y += tooltipDistance;
 
-			EnhancedTooltipItem.ModifyTooltipMetrics(twoColumnLines.AsReadOnly(), ref X, ref Y, ref size.X, ref size.Y);
+			EnhancedTooltipItem.ModifyTooltipMetrics(lines.AsReadOnly(), ref X, ref Y, ref size.X, ref size.Y);
 
 			if (X + size.X + 4f > Main.screenWidth) X = (int)(Main.screenWidth - size.X - 4f);
 			if (Y + size.Y + 4f > Main.screenHeight) Y = (int)(Main.screenHeight - size.Y - 4f);
 
-			// note: shouldn't continue drawing at all if returns false
-			bool globalCanDraw = EnhancedTooltipItem.PreDrawTooltip(item, twoColumnLines.AsReadOnly(), X, Y, size.X, size.Y);
-
-			float dark = Main.mouseTextColor / 255f;
-			int alpha = Main.mouseTextColor;
-
-			int yOffset = 0;
-			for (int i = 0; i < twoColumnLines.Count; i++)
+			if (EnhancedTooltipItem.PreDrawTooltip(item, lines.AsReadOnly(), X, Y, size.X, size.Y))
 			{
-				TwoColumnLine line = twoColumnLines[i];
+				int lineX = X + 8;
+				int lineY = Y + 8;
 
-				Color drawColor;
-				line.X += X;
-				line.Y += Y;
-
-				if (line.OneDropLogo)
+				foreach (BaseTooltipLine line in lines)
 				{
-					line.colorLeft = new Color(dark, dark, dark, dark);
+					lineY += line.GetTopMargin(lines.AsReadOnly());
 
-					if (ItemLoader.PreDrawTooltipLine(item, line.line, ref yOffset) && globalCanDraw)
-					{
-						for (int j = 0; j < 5; j++)
-						{
-							int logoX = line.X;
-							int logoY = line.Y;
-							if (j == 0) logoX--;
-							else if (j == 1) logoX++;
-							else if (j == 2) logoY--;
-							else if (j == 3) logoY++;
+					line.Position.X = lineX;
+					line.Position.Y = lineY;
 
-							drawColor = line.colorLeft;
-							Main.spriteBatch.Draw(Main.oneDropLogo, new Vector2(logoX + 8f, logoY + 8f), null, j != 4 ? Color.Black : drawColor, line.Rotation, line.Origin, (line.scaleLeft.X + line.scaleLeft.Y) / 2f, SpriteEffects.None, 0f);
-						}
+					line.Draw(Main.spriteBatch, size.X - 16f);
 
-						ItemLoader.PostDrawTooltipLine(item, line.line);
-					}
-				}
-				else
-				{
-					Color baseColor = new Color(dark, dark, dark, dark);
-					if (i == 0)
-					{
-						if (diff == 1) baseColor = new Color((byte)(Main.mcColor.R * dark), (byte)(Main.mcColor.G * dark), (byte)(Main.mcColor.B * dark), alpha);
-						else if (diff == 2) baseColor = new Color((byte)(Main.hcColor.R * dark), (byte)(Main.hcColor.G * dark), (byte)(Main.hcColor.B * dark), alpha);
-						else baseColor = GetRarityColor(item);
-					}
-					else if (modifiers[i]) baseColor = badModifiers[i] ? new Color((byte)(190f * dark), (byte)(120f * dark), (byte)(120f * dark), alpha) : new Color((byte)(120f * dark), (byte)(190f * dark), (byte)(120f * dark), alpha);
-					else if (line.line.mod.Equals("Terraria") && line.line.Name.Equals("Price")) baseColor = color;
-
-					line.colorLeft = baseColor;
-
-					drawColor = baseColor;
-					if (overrideColor[i].HasValue)
-					{
-						drawColor = overrideColor[i].Value * dark;
-						line.colorLeft = drawColor;
-					}
-
-					if (ItemLoader.PreDrawTooltipLine(item, line.line, ref yOffset) && globalCanDraw) line.Draw(Main.spriteBatch, size.X);
-
-					ItemLoader.PostDrawTooltipLine(item, line.line);
+					lineY += (int)(line.GetSize().Y + line.GetBottomMargin(lines.AsReadOnly()));
 				}
 
-				Y += (int)(line.GetSize().Y + yOffset);
+				EnhancedTooltipItem.PostDrawTooltip(item, lines.AsReadOnly(), X, Y, size.X, size.Y);
 			}
-
-			EnhancedTooltipItem.PostDrawTooltip(item, twoColumnLines.AsReadOnly(), X, Y, size.X, size.Y);
 		}
 
 		private static void GetTooltips(Player player, Item item, out int lenght, out int oneDropLogoIndex, out Color color, out string[] tooltipNames, out string[] texts, out bool[] modifiers, out bool[] badModifiers)

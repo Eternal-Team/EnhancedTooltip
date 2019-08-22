@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class HealManaModule : BaseModule
 	{
@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Restores",
 				textRight = item.healMana + " mana",
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.healMana / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HealMana))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, item.healMana / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.HealMana))
 			};
 		}
 	}

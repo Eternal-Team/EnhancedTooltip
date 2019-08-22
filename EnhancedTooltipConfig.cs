@@ -35,6 +35,9 @@ namespace EnhancedTooltip
 		[DefaultValue(true)]
 		public bool ShowModName;
 
+		[DefaultValue(true)]
+		public bool UseIconsForPrice;
+
 		[DefaultValue(1f), Label("Scale of item name")]
 		public float ItemNameScale;
 

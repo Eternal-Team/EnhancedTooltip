@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class UseManaModule : BaseModule
 	{
@@ -15,7 +15,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Consumes",
 				textRight = item.mana + " mana",
-				colorRight = Utility.DoubleLerp(Color.LimeGreen, Color.Yellow, Color.Red, (float)item.mana / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.UseMana))
+				colorRight = Utility.DoubleLerp(Color.LimeGreen, Color.Yellow, Color.Red, item.mana / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.UseMana))
 			};
 		}
 	}

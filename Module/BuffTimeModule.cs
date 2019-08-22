@@ -4,7 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EnhancedTooltip.Tooltip
+namespace EnhancedTooltip.Module
 {
 	internal class BuffTimeModule : BaseModule
 	{
@@ -24,7 +24,7 @@ namespace EnhancedTooltip.Tooltip
 			{
 				textLeft = "Buff duration",
 				textRight = text,
-				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, (float)item.buffTime / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.BuffTime))
+				colorRight = Utility.DoubleLerp(Color.Red, Color.Yellow, Color.LimeGreen, item.buffTime / EnhancedTooltip.GetStat(EnhancedTooltip.Stat.BuffTime))
 			};
 		}
 	}
