@@ -54,7 +54,7 @@ namespace EnhancedTooltip.Tooltip
 
 				if (item.tileBoost != 0) lines.Add(new TileBoostLine());
 
-				if (item.healLife > 0) lines.Add(new HealLifeLine()); 
+				if (item.healLife > 0) lines.Add(new HealLifeLine());
 
 				if (item.healMana > 0) lines.Add(new HealManaLine());
 
@@ -68,7 +68,7 @@ namespace EnhancedTooltip.Tooltip
 				else if (item.consumable) lines.Add(new ConsumableLine());
 
 				if (item.material) lines.Add(new MaterialLine());
-				
+
 				if ((item.type == 3818 || item.type == 3819 || item.type == 3820 || item.type == 3824 || item.type == 3825 || item.type == 3826 || item.type == 3829 || item.type == 3830 || item.type == 3831 || item.type == 3832 || item.type == 3833 || item.type == 3834) && !player.downedDD2EventAnyDifficulty) lines.Add(new EtherianManaWarningLine());
 
 				if (item.buffType == BuffID.WellFed && Main.expertMode) lines.Add(new WellFedExpertLine());
@@ -77,7 +77,7 @@ namespace EnhancedTooltip.Tooltip
 
 				if (item.type == 3262 || item.type == 3282 || item.type == 3283 || item.type == 3284 || item.type == 3285 || item.type == 3286 || item.type == 3316 || item.type == 3315 || item.type == 3317 || item.type == 3291 || item.type == 3389) lines.Add(new OneDropLogoLine());
 
-				//if (item.prefix > 0) lines.Add(new PrefixLine());
+				if (item.prefix > 0) lines.Add(new PrefixLine(item));
 
 				if (Main.HoverItem.wornArmor && Main.player[Main.myPlayer].setBonus != "") lines.Add(new SetBonusLine());
 
@@ -92,8 +92,7 @@ namespace EnhancedTooltip.Tooltip
 								Text = Language.GetTextValue("LegacyTooltip.59")
 							});
 						}
-						else
-							lines.Add(new TooltipLine(j));
+						else lines.Add(new Common.TooltipLine(j));
 					}
 				}
 
@@ -128,9 +127,5 @@ namespace EnhancedTooltip.Tooltip
 
 			return lines;
 		}
-	}
-
-	public class PrefixLine : BaseSimpleLine
-	{
 	}
 }
