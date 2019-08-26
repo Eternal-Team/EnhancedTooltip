@@ -16,19 +16,21 @@ namespace EnhancedTooltip
 	internal static partial class Hooking
 	{
 		private static FieldInfo tooltipDistanceInfo;
+		private static Item HoverItem;
+		private static List<BaseTooltipLine> Lines;
 
 		private static void DrawTooltip(byte diff, int X, int Y)
 		{
 			if (tooltipDistanceInfo == null) tooltipDistanceInfo = typeof(Main).GetField("toolTipDistance", Utility.defaultFlags);
 
-			Player player = Main.LocalPlayer;
-			Item item = Main.HoverItem;
-
-			// todo: only get lines when HoverItem changes
-			List<BaseTooltipLine> lines = TooltipManager.GetLines(player, item).ToList();
-
+			if (HoverItem?.IsNotTheSameAs(Main.HoverItem)??true)
+			{
+				HoverItem = Main.HoverItem;
+				Lines = TooltipManager.GetLines(Main.LocalPlayer, HoverItem).ToList();
+			}
+			
 			Vector2 size = Vector2.Zero;
-			foreach (Vector2 lineSize in lines.Select(line => line.GetSize()))
+			foreach (Vector2 lineSize in Lines.Select(line => line.GetSize()))
 			{
 				if (lineSize.X > size.X) size.X = lineSize.X;
 				size.Y += lineSize.Y;
@@ -38,29 +40,29 @@ namespace EnhancedTooltip
 			X += tooltipDistance;
 			Y += tooltipDistance;
 
-			EnhancedTooltipItem.ModifyTooltipMetrics(lines.AsReadOnly(), ref X, ref Y, ref size.X, ref size.Y);
+			EnhancedTooltipItem.ModifyTooltipMetrics(Lines.AsReadOnly(), ref X, ref Y, ref size.X, ref size.Y);
 
 			if (X + size.X + 4f > Main.screenWidth) X = (int)(Main.screenWidth - size.X - 4f);
 			if (Y + size.Y + 4f > Main.screenHeight) Y = (int)(Main.screenHeight - size.Y - 4f);
 
-			if (EnhancedTooltipItem.PreDrawTooltip(item, lines.AsReadOnly(), X, Y, size.X, size.Y))
+			if (EnhancedTooltipItem.PreDrawTooltip(HoverItem, Lines.AsReadOnly(), X, Y, size.X, size.Y))
 			{
 				int lineX = X + 8;
 				int lineY = Y + 8;
 
-				foreach (BaseTooltipLine line in lines)
+				foreach (BaseTooltipLine line in Lines)
 				{
-					lineY += line.GetTopMargin(lines.AsReadOnly());
+					lineY += line.GetTopMargin(Lines.AsReadOnly());
 
 					line.Position.X = lineX;
 					line.Position.Y = lineY;
 
 					line.Draw(Main.spriteBatch, size.X - 16f);
 
-					lineY += (int)(line.GetSize().Y + line.GetBottomMargin(lines.AsReadOnly()));
+					lineY += (int)(line.GetSize().Y + line.GetBottomMargin(Lines.AsReadOnly()));
 				}
 
-				EnhancedTooltipItem.PostDrawTooltip(item, lines.AsReadOnly(), X, Y, size.X, size.Y);
+				EnhancedTooltipItem.PostDrawTooltip(HoverItem, Lines.AsReadOnly(), X, Y, size.X, size.Y);
 			}
 		}
 

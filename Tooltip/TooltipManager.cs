@@ -96,8 +96,6 @@ namespace EnhancedTooltip.Tooltip
 					}
 				}
 
-				// MODIFIERS
-
 				/*
 					bool canApplyDiscount = true;
 					int num62 = Main.reforgeItem.value;
