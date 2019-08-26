@@ -24,21 +24,19 @@ namespace EnhancedTooltip.Tooltip.Common
 				Main.cpItem.netDefaults(item.netID);
 			}
 
+			float dark = Main.mouseTextColor / 255f;
+			byte a = Main.mouseTextColor;
+
+			Color badColor = new Color((byte)(190f * dark), (byte)(120f * dark), (byte)(120f * dark), a);
+			Color goodColor = new Color((byte)(120f * dark), (byte)(190f * dark), (byte)(120f * dark), a);
+
 			if (Main.cpItem.damage != item.damage)
 			{
 				double num12 = item.damage - (float)Main.cpItem.damage;
 				num12 = num12 / Main.cpItem.damage * 100.0;
 				num12 = Math.Round(num12);
 				Text.Add(num12 > 0.0 ? "+" + num12 + Language.GetTextValue("LegacyTooltip.39") : num12 + Language.GetTextValue("LegacyTooltip.39"));
-
-				//if (num12 < 0.0)
-				//{
-				//	bad//modifiers[lenght] = true;
-				//}
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixDamage";
-				////lenght++;
+				Color.Add(num12 < 0.0 ? badColor : goodColor);
 			}
 
 			if (Main.cpItem.useAnimation != item.useAnimation)
@@ -48,30 +46,14 @@ namespace EnhancedTooltip.Tooltip.Common
 				num13 = Math.Round(num13);
 				num13 *= -1.0;
 				Text.Add(num13 > 0.0 ? "+" + num13 + Language.GetTextValue("LegacyTooltip.40") : num13 + Language.GetTextValue("LegacyTooltip.40"));
-
-				//if (num13 < 0.0)
-				//{
-				//	bad//modifiers[lenght] = true;
-				//}
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixSpeed";
-				////lenght++;
+				Color.Add(num13 < 0.0 ? badColor : goodColor);
 			}
 
 			if (Main.cpItem.crit != item.crit)
 			{
 				double num14 = item.crit - (float)Main.cpItem.crit;
 				Text.Add(num14 > 0.0 ? "+" + num14 + Language.GetTextValue("LegacyTooltip.41") : num14 + Language.GetTextValue("LegacyTooltip.41"));
-
-				//if (num14 < 0.0)
-				//{
-				//	bad//modifiers[lenght] = true;
-				//}
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixCritChance";
-				////lenght++;
+				Color.Add(num14 < 0.0 ? badColor : goodColor);
 			}
 
 			if (Main.cpItem.mana != item.mana)
@@ -80,15 +62,7 @@ namespace EnhancedTooltip.Tooltip.Common
 				num15 = num15 / Main.cpItem.mana * 100.0;
 				num15 = Math.Round(num15);
 				Text.Add(num15 > 0.0 ? "+" + num15 + Language.GetTextValue("LegacyTooltip.42") : num15 + Language.GetTextValue("LegacyTooltip.42"));
-
-				//if (num15 > 0.0)
-				//{
-				//	bad//modifiers[lenght] = true;
-				//}
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixUseMana";
-				////lenght++;
+				Color.Add(num15 > 0.0 ? badColor : goodColor);
 			}
 
 			if (Main.cpItem.scale != item.scale)
@@ -97,15 +71,7 @@ namespace EnhancedTooltip.Tooltip.Common
 				num16 = num16 / Main.cpItem.scale * 100.0;
 				num16 = Math.Round(num16);
 				Text.Add(num16 > 0.0 ? "+" + num16 + Language.GetTextValue("LegacyTooltip.43") : num16 + Language.GetTextValue("LegacyTooltip.43"));
-
-				//if (num16 < 0.0)
-				//{
-				//	bad//modifiers[lenght] = true;
-				//}
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixSize";
-				////lenght++;
+				Color.Add(num16 < 0.0 ? badColor : goodColor);
 			}
 
 			if (Main.cpItem.shootSpeed != item.shootSpeed)
@@ -114,12 +80,7 @@ namespace EnhancedTooltip.Tooltip.Common
 				num17 = num17 / Main.cpItem.shootSpeed * 100.0;
 				num17 = Math.Round(num17);
 				Text.Add(num17 > 0.0 ? "+" + num17 + Language.GetTextValue("LegacyTooltip.44") : num17 + Language.GetTextValue("LegacyTooltip.44"));
-
-				//if (num17 < 0.0) bad//modifiers[lenght] = true;
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixShootSpeed";
-				////lenght++;
+				Color.Add(num17 < 0.0 ? badColor : goodColor);
 			}
 
 			float knockback = item.knockBack;
@@ -135,164 +96,121 @@ namespace EnhancedTooltip.Tooltip.Common
 				num18 = num18 / Main.cpItem.knockBack * 100.0;
 				num18 = Math.Round(num18);
 				Text.Add(num18 > 0.0 ? "+" + num18 + Language.GetTextValue("LegacyTooltip.45") : num18 + Language.GetTextValue("LegacyTooltip.45"));
-
-				//if (num18 < 0.0) bad//modifiers[lenght] = true;
-
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixKnockback";
-				////lenght++;
+				Color.Add(num18 < 0.0 ? badColor : goodColor);
 			}
 
 			if (item.prefix == 62)
 			{
 				Text.Add("+1" + Language.GetTextValue("LegacyTooltip.25"));
-				////modifiers[lenght] = true;
-				////tooltipNames[lenght] = "PrefixAccDefense";
-				////lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 63)
 			{
 				Text.Add("+2" + Language.GetTextValue("LegacyTooltip.25"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDefense";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 64)
 			{
 				Text.Add("+3" + Language.GetTextValue("LegacyTooltip.25"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDefense";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 65)
 			{
 				Text.Add("+4" + Language.GetTextValue("LegacyTooltip.25"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDefense";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 66)
 			{
 				Text.Add("+20 " + Language.GetTextValue("LegacyTooltip.31"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMaxMana";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 67)
 			{
 				Text.Add("+2" + Language.GetTextValue("LegacyTooltip.5"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccCritChance";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 68)
 			{
 				Text.Add("+4" + Language.GetTextValue("LegacyTooltip.5"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccCritChance";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 69)
 			{
 				Text.Add("+1" + Language.GetTextValue("LegacyTooltip.39"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDamage";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 70)
 			{
 				Text.Add("+2" + Language.GetTextValue("LegacyTooltip.39"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDamage";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 71)
 			{
 				Text.Add("+3" + Language.GetTextValue("LegacyTooltip.39"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDamage";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 72)
 			{
 				Text.Add("+4" + Language.GetTextValue("LegacyTooltip.39"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccDamage";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 73)
 			{
 				Text.Add("+1" + Language.GetTextValue("LegacyTooltip.46"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMoveSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 74)
 			{
 				Text.Add("+2" + Language.GetTextValue("LegacyTooltip.46"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMoveSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 75)
 			{
 				Text.Add("+3" + Language.GetTextValue("LegacyTooltip.46"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMoveSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 76)
 			{
 				Text.Add("+4" + Language.GetTextValue("LegacyTooltip.46"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMoveSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 77)
 			{
 				Text.Add("+1" + Language.GetTextValue("LegacyTooltip.47"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMeleeSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 78)
 			{
 				Text.Add("+2" + Language.GetTextValue("LegacyTooltip.47"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMeleeSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 79)
 			{
 				Text.Add("+3" + Language.GetTextValue("LegacyTooltip.47"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMeleeSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 
 			if (item.prefix == 80)
 			{
 				Text.Add("+4" + Language.GetTextValue("LegacyTooltip.47"));
-				//modifiers[lenght] = true;
-				//tooltipNames[lenght] = "PrefixAccMeleeSpeed";
-				//lenght++;
+				Color.Add(goodColor);
 			}
 		}
 
@@ -311,12 +229,11 @@ namespace EnhancedTooltip.Tooltip.Common
 		public override void Draw(SpriteBatch spriteBatch, float maxWidth)
 		{
 			float Y = Position.Y;
-			for (int i = 0; i < Text.Count; i++)
+			for (var i = 0; i < Text.Count; i++)
 			{
-				string s = Text[i];
-				// todo: use colors[i]
-				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, s, new Vector2(Position.X, Y), Microsoft.Xna.Framework.Color.White, 0f, Vector2.Zero, Vector2.One);
-				Y += ChatManager.GetStringSize(Main.fontMouseText, s, Vector2.One).Y;
+				string text = Text[i];
+				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, text, new Vector2(Position.X, Y), Color[i], 0f, Vector2.Zero, Vector2.One);
+				Y += ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One).Y;
 			}
 		}
 	}
